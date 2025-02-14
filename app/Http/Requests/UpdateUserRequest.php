@@ -3,8 +3,9 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
-class SignUpRequest extends FormRequest
+class UpdateUserRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,9 +23,14 @@ class SignUpRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|min:3|max:40',
-            'email' => 'required|email:rfc,dns|unique:users',
-            'password' => 'required|min:3',
+            'name' => 'nullable|min:3|max:40',
+            'email' => [
+                'nullable',
+                'email:rfc,dns',
+                Rule::unique('users')->ignore($this->user()->id),
+            ],
+            'password' => 'nullable|min:3',
+            'confirm_password' => 'nullable|same:password',
             'image' => 'nullable|mimes:png,jpg,jpeg,webp'
         ];
     }

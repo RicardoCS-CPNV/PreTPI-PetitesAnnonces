@@ -15,3 +15,6 @@ Route::post('/signup', [AuthController::class, 'store']);
 Route::get('/signup', function () {
     return view('auth.signup');
 })->name('auth.signup');
+
+Route::get('/update', [AuthController::class,'edit'])->name('auth.update')->middleware('auth');
+Route::post('/update', [AuthController::class,'update']);
