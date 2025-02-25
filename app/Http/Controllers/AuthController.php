@@ -22,6 +22,8 @@ class AuthController extends Controller
             $filename = time() . '.' . $file->getClientOriginalExtension();
             $file->move(public_path('avatars'), $filename);
             $validated['image'] = $filename;
+        }else{
+            $validated['image'] = "defaultAvatar.jpg";
         }
 
         $user = User::create([
@@ -65,20 +67,38 @@ class AuthController extends Controller
     {
         $validated = $request->validated();
 
+        // Cela permet à isDirty() et save() de fonctionner, sans cela, ils ne fonctionneraient pas.
+        /**
+        * @var \App\Models\User $user
+        */
+        $user = Auth::user();
+
         if($request->has('image')) {
             $file = $request->file('image');
             $filename = time() . '.' . $file->getClientOriginalExtension();
-            $file->move(public_path('avatars'), $filename);
             $validated['image'] = $filename;
+            $user->image = $validated['image'];
         }
-
-        $user = User::where('id', Auth::user()->id)->update([
-            'name' => $validated['name'],
-            'email' => $validated['email'],
-            'password' => Hash::make($validated['password']),
-            // 'image' => $validated['image']
-        ]);
-
+        
+        // Mise à jour uniquement si le nom est modifié
+        if ($request->input('name') !== $user->name) {
+            $user->name = $validated['name'];
+        }
+        
+        // Mise à jour uniquement si l'email est modifié
+        if ($request->input('email') !== $user->email) {
+            $user->email = $validated['email'];
+        }
+        
+        // Vérifier si des changements ont été faits avant de sauvegarder
+        if (!$user->isDirty()) {
+            return back()->with('success', 'Aucune modification détectée.');
+        }
+        
+        // Sauvegarder les modifications
+        $user->save();
+        $file->move(public_path('avatars'), $filename);
+        
         return back()->with('success', 'Profile updated successfully.');
     }
 

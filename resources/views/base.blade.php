@@ -6,9 +6,11 @@
     @vite('resources/css/app.css')
     @vite('resources/js/app.js')
     @vite('resources/js/bootstrap.js')
+    @livewireStyles
     <title>@yield('title')</title>
 </head>
 <body>
     @yield('content')
+    @livewireScripts
 </body>
 </html>

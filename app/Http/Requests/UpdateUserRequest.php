@@ -29,7 +29,7 @@ class UpdateUserRequest extends FormRequest
                 'email:rfc,dns',
                 Rule::unique('users')->ignore($this->user()->id),
             ],
-            'password' => 'nullable|min:3',
+            'password' => 'nullable|min:16',
             'confirm_password' => 'nullable|same:password',
             'image' => 'nullable|mimes:png,jpg,jpeg,webp'
         ];
