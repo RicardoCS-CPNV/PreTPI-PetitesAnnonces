@@ -1,7 +1,11 @@
 @extends("base")
 
 @section('title', 'Sign Up')
+@if (Auth::check())
 
+    <script>window.location.href = "{{ route('home') }}";</script>
+
+@endif
 @section("content")
 
     <div class="flex flex-col items-center gap-4 min-h-screen justify-center">
@@ -13,14 +17,14 @@
                 @csrf
                 <div class="mb-4">
                     <label class="block text-gray-700 text-sm font-bold mb-1" for="name">Name:</label>
-                    <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" type="text" id="name" name="name" placeholder="Type your name" value="{{ old('name') }}">
+                    <input class="w-full py-2 px-3 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" type="text" id="name" name="name" placeholder="Type your name" value="{{ old('name') }}">
                     @error('name')
                         {{ $message }}
                     @enderror
                 </div>
                 <div class="mb-4">
                     <label class="block text-gray-700 text-sm font-bold mb-1" for="email">Email:</label>
-                    <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" type="text" id="email" name="email" placeholder="Type your email" value="{{ old('email') }}">
+                    <input class="w-full py-2 px-3 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" type="text" id="email" name="email" placeholder="Type your email" value="{{ old('email') }}">
                     @error('email')
                         {{ $message }}
                     @enderror
@@ -100,6 +104,9 @@
                             :disabled="password !== passwordConfirm || password.length === 0">
                         S'inscrire
                     </button>
+                    <a class="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800" href="{{ route('auth.login') }}">
+                        Se connecter
+                    </a>
                 </div>
             </form>
         </div>
