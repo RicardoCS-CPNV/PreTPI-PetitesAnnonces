@@ -9,8 +9,13 @@ class Tag extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['nom'];
+    protected $fillable = [
+        'name'
+    ];
 
+    /**
+     * Relation : Un Tag peut être associé à plusieurs Posts (Many-to-Many)
+     */
     public function posts()
     {
         return $this->belongsToMany(Post::class, 'post_tag');

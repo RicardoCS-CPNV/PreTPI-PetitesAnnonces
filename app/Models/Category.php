@@ -9,8 +9,14 @@ class Category extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['nom', 'description'];
+    protected $fillable = [
+        'name',
+        'description'
+    ];
 
+    /**
+     * Relation : Une Catégorie peut avoir plusieurs Posts (One-to-Many)
+     */
     public function posts()
     {
         return $this->hasMany(Post::class);

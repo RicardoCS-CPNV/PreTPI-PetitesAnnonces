@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\PostRequest;
+use App\Models\Post;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class PostController extends Controller
 {
@@ -11,7 +14,8 @@ class PostController extends Controller
      */
     public function index()
     {
-        //
+        return view('posts.index', [
+            'posts' => Post::all()]);
     }
 
     /**
@@ -19,15 +23,29 @@ class PostController extends Controller
      */
     public function create()
     {
-        //
+        $post = new Post();
+        return view('posts.create', [
+            'post' => $post
+        ]);
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(PostRequest $request)
     {
-        //
+        $request->validated();
+
+        Post::create([
+            'user_id' => auth()->user()->id,
+            'title' => $request->title,
+            'description' => $request->description,
+            'category_id' => $request->category_id,
+            'price' => $request->price,
+            'slug' => Str::slug(  . '-' . $request->title),
+        ]);
+
+        return redirect()->route('posts.show', ['slug' => $post->slug, 'post' => $post->id])->with('success', "L'article a bien été sauvegardé");
     }
 
     /**
