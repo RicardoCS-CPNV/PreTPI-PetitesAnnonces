@@ -34,8 +34,8 @@ Route::prefix( '/posts')->name('posts.')->controller(PostController::class)->gro
     Route::get('/{article}/edit', 'edit')->name('edit');
     Route::post('/{article}/edit', 'update');
     
-    Route::get('/{slug}-{article}', 'show')->where([
-        'article' => '[0-9]+',
+    Route::get('/{post}-{slug}', 'show')->where([
+        'post' => '[0-9]+',
         'slug' => '[a-z0-9\-]+'
     ])->name('show');
 });

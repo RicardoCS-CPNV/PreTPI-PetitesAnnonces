@@ -26,7 +26,7 @@ class PostRequest extends FormRequest
         return [
             'title' => 'required|min:3|max:40',
             'description' => 'required|min:10|max:800',
-            'slug' => [Rule::unique('posts')->ignore($this->route()->parameter('post'))],
+            'slug' => [Rule::ignore($this->route()->parameter('post'))],
             'category_id' => 'required',
             'price' => 'required|decimal:2',
             // 'image' => 'nullable|mimes:png,jpg,jpeg,webp'

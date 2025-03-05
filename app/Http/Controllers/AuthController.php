@@ -33,7 +33,6 @@ class AuthController extends Controller
             'image' => $validated['image'],
         ]);
 
-
         Auth::login($user);
 
         return redirect()->intended(route('home'));

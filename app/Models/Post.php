@@ -14,6 +14,7 @@ class Post extends Model
         'category_id',
         'title',
         'description',
+        'price',
         'slug',
         'published_at'];
 
