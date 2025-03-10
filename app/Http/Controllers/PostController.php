@@ -6,6 +6,7 @@ use App\Http\Requests\PostRequest;
 use App\Models\Category;
 use App\Models\Post;
 use App\Models\Tag;
+use Carbon\Traits\Timestamp;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
@@ -27,9 +28,14 @@ class PostController extends Controller
      */
     public function create()
     {
+        // if(!Auth::check()){
+        //     return redirect()->route('auth.login');
+        // }
+
         $post = new Post();
         return view('posts.create', [
             'post' => $post,
+            'categories' => Category::all(),
             'tags' => Tag::all(),
         ]);
     }
@@ -37,33 +43,36 @@ class PostController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(PostRequest $post)
+    public function store(PostRequest $request)
     {
-        $post->validated();
+        // Validate Data
+        $validatedData = $request->validated();
 
-        Post::create([
+        // Create the post
+        $post = Post::create([
             'user_id' => Auth::user()->id,
-            'title' => $post->title,
-            'description' => $post->description,
-            'category_id' => $post->category_id,
-            'price' => $post->price,
-            // 'slug' => Str::slug($post->id . '-' . $post->title),
+            'title' => $validatedData['title'],
+            'description' => $validatedData['description'],
+            'category_id' => $validatedData['category_id'],
+            'price' => $validatedData['price'],
+            'slug' => Str::slug($validatedData['title']),
         ]);
-
-        dd($post->all());
-
-        // return redirect()->route('posts.show', ['slug' => $post->slug, 'post' => $post->id])->with('success', "L'article a bien été sauvegardé");
+    
+        // Associate if tags exist
+        if ($request->has('tags')) {
+            $tags = explode(',', $request->input('tags')); // Transformer la chaîne en tableau
+            $post->tags()->sync($tags); // Associer les tags avec `sync()`
+        }
+    
+        // Redirect to the post's page
+        return redirect()->route('posts.show', $post->id)->with('success', "L'annonce a bien été créée.");
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Post $post ,string $slug)
+    public function show(Post $post)
     {
-        if($post->slug != $slug){
-            return to_route('posts.show', ['slug' => $post->slug, 'id' => $post->id]);
-        }
-
         return view('posts.show', [
             'post' => $post
         ]);
@@ -72,17 +81,44 @@ class PostController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Post $post )
     {
-        //
+        return view('posts.create', [
+            'post' => $post->load('tags', 'category'),
+            'categories' => Category::all(),
+            'tags' => Tag::all(),
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(PostRequest $request, Post $post)
     {
-        //
+        // Validation des données
+        $validatedData = $request->validated();
+    
+        // Mise à jour des informations du post
+        $post->update([
+            'title' => $validatedData['title'],
+            'description' => $validatedData['description'],
+            'category_id' => $validatedData['category_id'],
+            'price' => $validatedData['price'],
+            'slug' => Str::slug($validatedData['title']),
+        ]);
+    
+        // Vérifier si des tags ont été envoyés
+        if ($request->has('tags')) {
+            $newTags = explode(',', $request->input('tags'));
+            $currentTags = $post->tags()->pluck('tags.id')->toArray(); // Get the current tags from the post
+
+            // Mettre à jour uniquement si les tags ont changé
+            if ($newTags !== $currentTags) {
+                $post->tags()->sync($newTags);
+            }
+        }
+    
+        return redirect()->route('posts.show', $post->id)->with('success', "L'annonce a bien été mise à jour.");
     }
 
     /**

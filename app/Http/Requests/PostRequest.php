@@ -24,12 +24,13 @@ class PostRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'title' => 'required|min:3|max:40',
-            'description' => 'required|min:10|max:800',
-            'slug' => [Rule::ignore($this->route()->parameter('post'))],
-            'category_id' => 'required',
-            'price' => 'required|decimal:2',
-            // 'image' => 'nullable|mimes:png,jpg,jpeg,webp'
+            'title' => 'required|min:3|max:255',
+            'description' => 'required|string',
+            'category_id' => 'required|exists:categories,id',
+            'price' => 'required|numeric|min:0',
+            'image' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+            'slug' => 'nullable',
+            'tags' => 'nullable|string',
         ];
     }
 

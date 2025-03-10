@@ -1,6 +1,6 @@
 @extends('base')
 
-@section('title', 'Create Post')
+@section('title', 'Edit Post')
 
 @section('content')
 

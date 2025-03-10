@@ -16,7 +16,7 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->foreignId('category_id')->constrained()->onDelete('cascade');
             $table->string('title');
-            $table->string('slug')->unique();
+            $table->string('slug');
             $table->text('description');
             $table->decimal('price', 10, 2);
             $table->timestamp('published_at')->nullable();

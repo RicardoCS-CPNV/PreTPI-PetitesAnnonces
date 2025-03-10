@@ -63,27 +63,6 @@
                         {{ $message }}
                     @enderror
                 </div>
-                <!-- <div class="mb-4">
-                    <div class="mb-3 col-md-6">
-                        <label for="password" class="block text-gray-700 text-sm font-bold mb-2">Password: </label>
-                        <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" type="password" id="password" name="password" autofocus="" >
-                        @error('password')
-                            <span role="alert" class="text-danger">
-                                <strong>{{ $message }}</strong>
-                            </span>
-                        @enderror
-                    </div>
-
-                    <div class="mb-3 col-md-6">
-                        <label for="confirm_password" class="block text-gray-700 text-sm font-bold mb-2">Confirm Password: </label>
-                        <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" type="password" id="confirm_password" name="confirm_password" autofocus="" >
-                        @error('confirm_password')
-                            <span role="alert" class="text-danger">
-                                <strong>{{ $message }}</strong>
-                            </span>
-                        @enderror
-                    </div>
-                </div> -->
 
                 <div class="flex justify-between items-center">
                     <div class="col-md-12 offset-md-5">
@@ -92,6 +71,7 @@
                         </button>
                     </div>
                 </div>
+
                 <div class="flex flex-wrap w-full mt-5 gap-4">
                     <div class="hover:text-blue-500 cursor-pointer">
                         <a href="">Forgotten password ?</a>
@@ -100,6 +80,7 @@
                         <a href="">Delete account</a>
                     </div>
                 </div>
+                
             </form>
         </div>
     </div>

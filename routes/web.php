@@ -31,11 +31,12 @@ Route::prefix( '/posts')->name('posts.')->controller(PostController::class)->gro
     Route::get('/', 'index')->name('index');
     Route::get('/new', 'create')->name('create');
     Route::post('/new', 'store');
-    Route::get('/{article}/edit', 'edit')->name('edit');
-    Route::post('/{article}/edit', 'update');
-    
-    Route::get('/{post}-{slug}', 'show')->where([
+    Route::get('/{post}/edit', 'edit')->where([
         'post' => '[0-9]+',
-        'slug' => '[a-z0-9\-]+'
+    ])->name('edit');
+    Route::post('/{post}/edit', 'update')->name('update');
+    
+    Route::get('/{post}', 'show')->where([
+        'post' => '[0-9]+',
     ])->name('show');
 });
