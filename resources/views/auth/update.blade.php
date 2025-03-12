@@ -44,12 +44,13 @@
                         @enderror
                     </div>
                 </div>
+
                 <div>
                     <h2 class="block text-gray-700 text-sm font-bold mb-2">Profile picture:</h2>
 
                     <div class="col-md-1 flex flex-wrap items-center justify-between gap-4">
-                        <input class="hidden" type="file" id="image" name="image" value="{{ auth()->user()->image }}" autofocus="" value="{{ old('file') }}">
-                        <label for="image" class="flex items-center gap-1 h-10 bg-blue-500 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+                        <input class="hidden" type="file" id="image" name="image">
+                        <label for="image" class="flex items-center gap-1 h-10 bg-blue-500 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded focus:outline-none focus:shadow-outline cursor-pointer">
                             Choose a file
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 <path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/>
@@ -57,10 +58,12 @@
                                 <line x1="12" y1="4" x2="12" y2="16"/>
                             </svg>
                         </label>
-                        <img src="avatars/{{ auth()->user()->image }}" class="w-20 h-20 rounded-full object-cover">
+
+                        <img id="preview" src="{{ asset('avatars/' . auth()->user()->image) }}" class="w-20 h-20 rounded-full object-cover border border-gray-300">
                     </div>
+
                     @error('image')
-                        {{ $message }}
+                        <p class="text-red-500 text-sm">{{ $message }}</p>
                     @enderror
                 </div>
 
@@ -84,4 +87,17 @@
             </form>
         </div>
     </div>
+
+    <script>
+        document.getElementById('image').addEventListener('change', function(event) {
+            let file = event.target.files[0];
+            if (file) {
+                let reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById('preview').src = e.target.result;
+                }
+                reader.readAsDataURL(file);
+            }
+        });
+    </script>
 @endsection

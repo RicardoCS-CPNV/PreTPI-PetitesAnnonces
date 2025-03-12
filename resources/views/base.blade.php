@@ -18,7 +18,7 @@
                 <div class="flex flex-wrap justify-between items-center mx-auto max-w-screen-xl" x-data="{ open: false }" x-data="{ open: localStorage.getItem('open') === 'enabled' }">
                     <a href="{{ route('home') }}" class="flex items-center">
                         <img src="https://flowbite.com/docs/images/logo.svg" class="mr-3 h-6 sm:h-9" alt="Flowbite Logo" />
-                        <span class="self-center text-xl font-semibold whitespace-nowrap dark:text-white" id="sitename">SnackSite</span>
+                        <span class="hidden sm:block self-center text-xl font-semibold whitespace-nowrap dark:text-white" id="sitename">SnackSite</span>
                     </a>
 
                     <div class="flex items-center lg:order-2" >
@@ -27,7 +27,7 @@
                             <div class="flex items-center gap-2">
                                 <a href="{{ route('auth.update') }}" class="flex col-md-6 gap-2 hover:bg-gray-200 dark:bg-gray-800 dark:hover:bg-gray-600 cursor-pointer px-2 py-1 rounded-full">
                                     <p class="dark:text-white">{{ Auth::user()->name }}</p>
-                                    <img src="avatars/{{ Auth::user()->image }}" class="w-6 h-6 rounded-full object-cover">
+                                    <img src="{{ asset('avatars/' . auth()->user()->image) }}" class="w-6 h-6 rounded-full object-cover">
                                 </a>
                                 <form action="{{ route('auth.logout') }}" method="post" class="flex">
                                     @method("delete")

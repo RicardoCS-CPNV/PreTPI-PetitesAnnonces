@@ -23,10 +23,6 @@ Route::get('/signup', function () {
 Route::get('/update', [AuthController::class,'edit'])->name('auth.update')->middleware('auth');
 Route::post('/update', [AuthController::class,'update']);
 
-// Route::get('/', [CategoryController::class, 'index'])->name('posts.index');
-
-// Route::get('/posts', [PostController::class, 'index'])->name('posts.index');
-
 Route::prefix( '/posts')->name('posts.')->controller(PostController::class)->group(function () {
     Route::get('/', 'index')->name('index');
     Route::get('/new', 'create')->name('create');
@@ -35,6 +31,7 @@ Route::prefix( '/posts')->name('posts.')->controller(PostController::class)->gro
         'post' => '[0-9]+',
     ])->name('edit');
     Route::post('/{post}/edit', 'update')->name('update');
+    Route::delete('/{post}/edit', 'destroy')->name('destroy');
     
     Route::get('/{post}', 'show')->where([
         'post' => '[0-9]+',

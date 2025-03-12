@@ -5,7 +5,7 @@
             Ajouter une annonce
     @endif
 </h1>
-<div class="sm:p-6 p-2 flex justify-center w-full">
+<div class="sm:p-4 p-2 flex flex-col justify-center w-full">
     <form action="
         @if ($post->id)
             {{ route('posts.update', ['post' => $post->id]) }}
@@ -101,8 +101,9 @@
 
             </div>
 
-            <div class="flex justify-end">
-                <button class="w-fit text-white bg-blue-500 hover:bg-blue-700 font-bold py-2 px-4 rounded-lg focus:outline-none focus:shadow-outline"  id="submitBtn">
+            <div class="flex flex-wrap justify-end">
+
+                <button class="z-10 w-full sm:w-fit text-white bg-blue-500 hover:bg-blue-700 font-bold py-2 px-4 rounded-lg focus:outline-none focus:shadow-outline"  id="submitBtn">
                     @if ($post->id)
                             Modifier l'annonce
                         @else
@@ -112,4 +113,15 @@
             </div>
         </div>
     </form>
+    @if ($post->id)
+        <div class="flex justify-center">
+            <form class="flex mt-4 sm:-mt-10 w-[700px]" action="{{ route('posts.destroy', $post->id) }}" method="POST" onsubmit="return confirm('Voulez-vous vraiment supprimer cette annonce ? Cette action est irréversible.');">
+                @csrf
+                @method('DELETE')
+                <button type="submit" class="w-full sm:w-fit text-white bg-red-500 hover:bg-red-700 font-bold py-2 px-4 rounded-lg focus:outline-none focus:shadow-outline">
+                    Supprimer l'annonce
+                </button>
+            </form>
+        </div>
+    @endif
 </div>

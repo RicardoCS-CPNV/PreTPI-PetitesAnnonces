@@ -49,4 +49,11 @@ class Post extends Model
     {
         return $this->hasMany(PostImage::class);
     }
+
+    public function getFormattedPriceAttribute()
+    {
+        return ($this->price == intval($this->price))
+            ? number_format($this->price, 0, '.', " ") . '.-'
+            : number_format($this->price, 2, '.', " ");
+    }
 }

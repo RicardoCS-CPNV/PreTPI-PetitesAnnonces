@@ -9,6 +9,7 @@ use App\Models\Tag;
 use Carbon\Traits\Timestamp;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Number;
 use Illuminate\Support\Str;
 
 class PostController extends Controller
@@ -18,8 +19,10 @@ class PostController extends Controller
      */
     public function index()
     {
+        $posts = Post::paginate(30);
+    
         return view('posts.index', [
-            'posts' => Post::all(),
+            'posts' => $posts,
         ]);
     }
 
@@ -56,6 +59,7 @@ class PostController extends Controller
             'category_id' => $validatedData['category_id'],
             'price' => $validatedData['price'],
             'slug' => Str::slug($validatedData['title']),
+            'published_at' => now(),
         ]);
     
         // Associate if tags exist
@@ -74,8 +78,9 @@ class PostController extends Controller
     public function show(Post $post)
     {
         return view('posts.show', [
-            'post' => $post
-        ]);
+            'post' => $post,
+            'price' => $post->getFormattedPriceAttribute(),
+            ]);
     }
 
     /**
@@ -105,6 +110,7 @@ class PostController extends Controller
             'category_id' => $validatedData['category_id'],
             'price' => $validatedData['price'],
             'slug' => Str::slug($validatedData['title']),
+            'updated_at' => now(),
         ]);
     
         // Vérifier si des tags ont été envoyés
@@ -124,8 +130,20 @@ class PostController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Post $post)
     {
-        //
+        if (Auth::id() !== $post->user_id) {
+            return back()->with('error', "Vous n'avez pas l'autorisation de supprimer cette annonce.");
+        }
+    
+        // Supprimer les images associées (si tu en as)
+        // foreach ($post->images as $image) {
+        //     Storage::disk('public')->delete($image->image_path);
+        // }
+    
+        // Supprimer l'annonce
+        $post->delete();
+
+        return redirect()->route('posts.index')->with('success', "L'annonce a été supprimée.");
     }
 }
