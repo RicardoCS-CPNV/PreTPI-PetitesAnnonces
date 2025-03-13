@@ -33,9 +33,9 @@ class PostController extends Controller
      */
     public function create()
     {
-        // if(!Auth::check()){
-        //     return redirect()->route('auth.login');
-        // }
+        if(!Auth::check()){
+            return redirect()->route('auth.login');
+        }
 
         $post = new Post();
         return view('posts.create', [
@@ -105,6 +105,12 @@ class PostController extends Controller
      */
     public function edit(Post $post )
     {
+        if (Auth::id() !== $post->user_id) {
+            if (!Auth::check()) {
+                return redirect()->route('auth.login');
+            }
+            return redirect()->route('home')->with('error', "Vous n'avez pas l'autorisation de modifier cette annonce.");
+        }
         return view('posts.create', [
             'post' => $post->load('tags', 'category'),
             'categories' => Category::all(),
@@ -117,6 +123,8 @@ class PostController extends Controller
      */
     public function update(PostRequest $request, Post $post)
     {
+
+
         // Validation des données
         $validatedData = $request->validated();
     
