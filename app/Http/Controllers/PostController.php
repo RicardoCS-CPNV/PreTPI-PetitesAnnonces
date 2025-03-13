@@ -5,9 +5,11 @@ namespace App\Http\Controllers;
 use App\Http\Requests\PostRequest;
 use App\Models\Category;
 use App\Models\Post;
+use App\Models\PostImage;
 use App\Models\Tag;
 use Carbon\Traits\Timestamp;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Number;
 use Illuminate\Support\Str;
@@ -67,6 +69,21 @@ class PostController extends Controller
             $tags = explode(',', $request->input('tags')); // Transformer la chaîne en tableau
             $post->tags()->sync($tags); // Associer les tags avec `sync()`
         }
+
+        if ($request->hasFile('image')) {
+            $files = $request->file('image');
+            foreach ($files as $file) {
+                $timestamp = Carbon::now()->format('Ymd_His_u');
+                $filename = $post->id . '_' . $timestamp . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
+
+                $post->images()->create([
+                    'url_image' => $filename,
+                    'post_id' => $post->id
+                ]);
+
+                $file->storeAs('posts', $filename, 'public');
+            }
+        }
     
         // Redirect to the post's page
         return redirect()->route('posts.show', $post->id)->with('success', "L'annonce a bien été créée.");
@@ -123,6 +140,22 @@ class PostController extends Controller
                 $post->tags()->sync($newTags);
             }
         }
+
+        if ($request->hasFile('image')) {
+            $files = $request->file('image');
+            foreach ($files as $file) {
+                $timestamp = Carbon::now()->format('Ymd_His_u');
+                $filename = $post->id . '_' . $timestamp . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
+
+                $post->images()->create([
+                    'url_image' => $filename,
+                    'post_id' => $post->id
+                ]);
+
+                $file->storeAs('posts', $filename, 'public');
+            }
+        }
+
     
         return redirect()->route('posts.show', $post->id)->with('success', "L'annonce a bien été mise à jour.");
     }

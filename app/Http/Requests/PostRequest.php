@@ -28,7 +28,8 @@ class PostRequest extends FormRequest
             'description' => 'required|string',
             'category_id' => 'required|exists:categories,id',
             'price' => 'required|numeric|min:0',
-            'image' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+            'image' => 'nullable|array',
+            'image.*' => 'image|mimes:jpg,jpeg,png,webp|max:2048',    
             'slug' => 'nullable',
             'tags' => 'nullable|string',
         ];

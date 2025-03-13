@@ -2,10 +2,6 @@
 
 @section('title', 'Posts')
 
-@php
-    $image = 10;
-@endphp
-
 @section('content')
     @if(session('success'))
         <div class="flex justify-center sm:mx-5 mx-2 sm:mt-3 mt-2">
@@ -21,16 +17,16 @@
     @endif
     <h1 class="text-center text-4xl font-bold mb-6 dark:text-white mt-4">Annonces</h1>
     <div class="mx-2 sm:mx-5">
-        <a href="{{ route('posts.create') }}" class=" w-fit bg-blue-500 dark:bg-blue-700 dark:text-white hover:bg-blue-700 dark:hover:bg-blue-500 font-bold py-2 px-4 rounded-lg focus:outline-none focus:shadow-outline"  id="submitBtn">
+        <a href="{{ route('posts.create') }}" class=" w-fit text-white bg-blue-500 dark:bg-blue-700 dark:text-white hover:bg-blue-700 dark:hover:bg-blue-500 font-bold py-2 px-4 rounded-lg focus:outline-none focus:shadow-outline"  id="submitBtn">
             Créer une annonce
         </a>
     </div>
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 my-5 mx-2 sm:mx-5">
         @foreach($posts as $post)
             <a href="{{ route('posts.show', ['post' => $post->id]) }}" class="relative flex md:flex-row w-full gap-2 bg-slate-50 dark:bg-slate-800 p-4 shadow-md dark:shadow-gray-950 rounded-xl">
-                @if ($image)
-                    <div class="min-w-32  w-32 h-32 bg-black flex items-center justify-center object-cover overflow-hidden">
-                        <img src="avatars/1740487941.webp" alt="">
+                @if ($post->images->count() > 0)
+                    <div class="min-w-32  w-32 h-32 rounded-md flex items-center justify-center object-cover overflow-hidden">
+                        <img src="{{ asset('storage/posts/' . $post->images->first()->url_image) }}" class="rounded-lg" alt="">
                     </div>
                 @endif
                 <div class="mb-4">

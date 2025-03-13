@@ -79,7 +79,6 @@ class AuthController extends Controller
             $destinationPath = public_path('avatars');
         
             // 🔥 Vérifier si l'utilisateur a déjà une image avant de la supprimer
-            $user = Auth::user();
             if ($user && $user->image && file_exists($destinationPath . '/' . $user->image) && $user->image !== 'defaultAvatar.jpg') {
                 unlink($destinationPath . '/' . $user->image);
             }
