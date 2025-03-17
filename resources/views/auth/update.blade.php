@@ -75,15 +75,19 @@
                     </div>
                 </div>
 
-                <div class="flex flex-wrap w-full mt-5 gap-4">
+                
+            </form>
+            <form action="{{  route('auth.delete', auth()->user()->id) }}" method="POST" onsubmit="return confirm('Voulez-vous vraiment supprimer votre compte ? Cette action est irréversible.');">
+                <div class="flex flex-wrap justify-center w-full mt-5 gap-4">
+                    @csrf
+                    @method('DELETE')
                     <div class="hover:text-blue-500 cursor-pointer">
-                        <a href="">Forgotten password ?</a>
+                        <a href="#">Mot de passe oublié ?</a>
                     </div>
                     <div class="text-red-500 font-bold hover:text-red-900 cursor-pointer">
-                        <a href="">Delete account</a>
+                        <button type="submit">Supprimer le compte</button>
                     </div>
                 </div>
-                
             </form>
         </div>
     </div>

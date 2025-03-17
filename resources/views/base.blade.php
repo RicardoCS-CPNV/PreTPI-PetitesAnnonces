@@ -17,8 +17,8 @@
             <nav class="bg-white border-gray-200 px-4 lg:px-6 py-2.5 dark:bg-gray-800">
                 <div class="flex flex-wrap justify-between items-center mx-auto max-w-screen-xl" x-data="{ open: false }" x-data="{ open: localStorage.getItem('open') === 'enabled' }">
                     <a href="{{ route('home') }}" class="flex items-center">
-                        <img src="https://flowbite.com/docs/images/logo.svg" class="mr-3 h-6 sm:h-9" alt="Flowbite Logo" />
-                        <span class="hidden sm:block self-center text-xl font-semibold whitespace-nowrap dark:text-white" id="sitename">SnackSite</span>
+                        <img src="{{ asset('OdraPlace_Logo.png') }}" class="mr-3 h-6 sm:h-9" alt="OdraPlace Logo" />
+                        <span class="hidden sm:block self-center text-xl font-semibold whitespace-nowrap text-blue-500" id="sitename">Odra<span class="text-black dark:text-white">Place</span></span>
                     </a>
 
                     <div class="flex items-center lg:order-2" >
@@ -37,8 +37,8 @@
                             </div>
 
                         @else
-                            <a href="{{ route('auth.login') }}" class="text-gray-800 dark:text-white hover:bg-gray-50 focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2 dark:hover:bg-gray-700 focus:outline-none dark:focus:ring-gray-800">Log in</a>
-                            <a href="{{ route('auth.signup') }}" class="text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800">Get started</a>
+                            <a href="{{ route('auth.login') }}" class="text-gray-800 dark:text-white hover:bg-gray-50 focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2 dark:hover:bg-gray-700 focus:outline-none dark:focus:ring-gray-800">Se connecter</a>
+                            <a href="{{ route('auth.signup') }}" class="text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800">S'inscrire</a>
                         @endif
                         <button @click="dark = !dark; localStorage.setItem('darkMode', dark ? 'enabled' : 'disabled')" class="inline-block p-1 dark:hover:bg-blue-800 hover:bg-blue-200 dark:hover:text-white rounded-full">
                             <svg x-show="dark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="text-white h-7" fill="currentColor"><path d="M12 21.9967C6.47715 21.9967 2 17.5196 2 11.9967C2 6.47386 6.47715 1.9967 12 1.9967C17.5228 1.9967 22 6.47386 22 11.9967C22 17.5196 17.5228 21.9967 12 21.9967ZM12 19.9967C16.4183 19.9967 20 16.415 20 11.9967C20 7.57843 16.4183 3.9967 12 3.9967C7.58172 3.9967 4 7.57843 4 11.9967C4 16.415 7.58172 19.9967 12 19.9967ZM7.00035 15.316C9.07995 15.1646 11.117 14.2939 12.7071 12.7038C14.2972 11.1137 15.1679 9.07666 15.3193 6.99706C15.6454 7.21408 15.955 7.46642 16.2426 7.75406C18.5858 10.0972 18.5858 13.8962 16.2426 16.2393C13.8995 18.5825 10.1005 18.5825 7.75736 16.2393C7.46971 15.9517 7.21738 15.6421 7.00035 15.316Z"></path></svg>
@@ -55,7 +55,7 @@
                         </button>
                     </div>
 
-                    <div :class="open ? 'inline-block' : 'hidden'" class="absolute lg:relative lg:top-0 lg:right-0 top-12 right-5 bg-white dark:bg-gray-800 border-border-gray-100 dark:border-white z-10 justify-between items-center w-100 lg:flex lg:w-auto lg:order-1" id="mobile-menu-2">
+                    <div :class="open ? 'inline-block' : 'hidden'" class="absolute z-50 lg:relative lg:top-0 lg:right-0 top-12 right-5 bg-white dark:bg-gray-800 border-border-gray-100 dark:border-white z-10 justify-between items-center w-100 lg:flex lg:w-auto lg:order-1" id="mobile-menu-2">
                         <ul class="flex flex-col mt-4 font-medium lg:flex-row lg:space-x-8 lg:mt-0">
                             <li>
                                 <a href="{{ route('home') }}"

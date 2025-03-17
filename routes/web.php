@@ -5,6 +5,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\PostController;
 use App\Models\Category;
 use App\Models\Post;
+use Illuminate\Container\Attributes\Auth;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -22,6 +23,8 @@ Route::get('/signup', function () {
 
 Route::get('/update', [AuthController::class,'edit'])->name('auth.update')->middleware('auth');
 Route::post('/update', [AuthController::class,'update']);
+
+Route::delete('/user/{user}', [AuthController::class, 'delete'])->name('auth.delete');
 
 Route::prefix( '/posts')->name('posts.')->controller(PostController::class)->group(function () {
     Route::get('/', 'index')->name('index');

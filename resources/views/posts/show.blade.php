@@ -89,14 +89,9 @@
 
                 </div>
             @endif
-            <div>
-                <p class="text-black dark:text-gray-300 text-justify">
-                    {{ $post->description }} <br><br>
-                <p class="text-black dark:text-gray-300 text-justify">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Veritatis officiis ullam minus beatae qui in aut tempore modi facilis! Fugit voluptas expedita perferendis ducimus accusamus voluptatem est consequatur assumenda qui.
-                    Quos sequi nulla odio voluptates animi dolorum illo voluptate itaque vero quam, soluta totam laboriosam quis nesciunt saepe quaerat eveniet eaque nam, qui, eum iste at? Nam distinctio facere fugit.
-                    Optio quidem beatae aspernatur. Officiis consectetur natus fugit recusandae, doloremque veritatis omnis! Est cum fugit porro obcaecati saepe ipsa nam qui nulla aut! Repellendus saepe ad nisi itaque temporibus magni.</p>
-                </p>
-            </div>
+            <p class="text-black dark:text-gray-300 text-justify">
+                {{ $post->description }} <br><br>
+            </p>
         </div>
         @if ($post->images->count() <= 0 && $post->tags->isNotEmpty())
             <div>

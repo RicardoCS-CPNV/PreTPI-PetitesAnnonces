@@ -8,7 +8,7 @@ use App\Http\Requests\UpdateUserRequest;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-
+use Illuminate\Support\Facades\Storage;
 
 class AuthController extends Controller
 {
@@ -120,13 +120,24 @@ class AuthController extends Controller
 
     public function delete(User $user)
     {
-        if(public_path('avatars/' . $user->image)) {
-            unlink(public_path('avatars') . '/' . $user->image);
+        if(asset('avatars/' . $user->image) !== asset('avatars/defaultAvatar.jpg')) {
+            Storage::delete('avatars/' . $user->image);
         }
-
-        $user->posts()->delete();
-
+        
+        // Delete all posts
+        $user->posts()->each(function ($post) {
+            // Supprime les images des posts
+            foreach ($post->images as $image) {
+                Storage::delete('posts/' . $image->url_image);
+            }
+            $post->delete(); // Supprime le post après ses images
+        });
+        
         // Delete the user
         $user->delete();
+        
+        Auth::logout();
+
+        return to_route('auth.login');
     }
 }

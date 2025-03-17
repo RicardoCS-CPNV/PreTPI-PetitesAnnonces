@@ -8,7 +8,12 @@
 @endif
 @section("content")
 
-    <div class="flex flex-col items-center gap-4 min-h-screen justify-center">
+    <div class="absolute w-full flex sm:flex-col sm:items-center h-full p-10 gap-3 sm:gap-5 -z-50">
+        <img src="{{ asset('OdraPlace_Logo.png') }}" alt="OdraPlace Logo" class="w-16 h-16">
+        <h1 class="mt-3 sm:mt-0 text-4xl font-bold text-blue-500">Odra<span class="text-black">Place</span></h1>
+    </div>
+    
+    <div class="flex flex-col items-center gap-4 min-h-screen justify-center sm:pt-10">
         <h1 class="text-4xl font-bold text-blue-500">S'inscrire</h1>
     
         <div class="w-full max-w-xs">
@@ -17,23 +22,23 @@
                 @csrf
 
                 <div class="mb-4">
-                    <label class="block text-gray-700 text-sm font-bold mb-1" for="name">Name:</label>
-                    <input class="w-full py-2 px-3 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" type="text" id="name" name="name" placeholder="Type your name" value="{{ old('name') }}">
+                    <label class="block text-gray-700 text-sm font-bold mb-1" for="name">Nom :</label>
+                    <input class="w-full py-2 px-3 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" type="text" id="name" name="name" placeholder="Inscrivez votre nom" value="{{ old('name') }}">
                     @error('name')
                         {{ $message }}
                     @enderror
                 </div>
 
                 <div class="mb-4">
-                    <label class="block text-gray-700 text-sm font-bold mb-1" for="email">Email:</label>
-                    <input class="w-full py-2 px-3 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" type="text" id="email" name="email" placeholder="Type your email" value="{{ old('email') }}">
+                    <label class="block text-gray-700 text-sm font-bold mb-1" for="email">Email :</label>
+                    <input class="w-full py-2 px-3 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" type="text" id="email" name="email" placeholder="Inscrivez votre email" value="{{ old('email') }}">
                     @error('email')
                         {{ $message }}
                     @enderror
                 </div>
 
                 <div class="mb-4">
-                    <h2 class="block text-gray-700 text-sm font-bold mb-1">Profile picture:</h2>
+                    <h2 class="block text-gray-700 text-sm font-bold mb-1">Avatar :</h2>
                     
                     <div class="mb-3 col-md-6 flex justify-around items-center">
                         <img id="preview" src="{{ asset('avatars/defaultAvatar.jpg') }}" class="w-20 h-20 rounded-full object-cover">
@@ -49,7 +54,7 @@
                 </div>
 
                 <div class="mb-6 relative flex-1 col-span-4" x-data="{ show: true }">
-                    <label class="block text-gray-700 text-sm font-bold mb-1" for="password">Password:</label>
+                    <label class="block text-gray-700 text-sm font-bold mb-1" for="password">Mot de passe :</label>
                     <input  class="w-full py-2 px-3 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                             id="password"
                             :type="show ? 'password' : 'text'"
@@ -69,7 +74,7 @@
                 </div>
 
                 <div class="mb-6 relative flex-1 col-span-4" x-data="{ show: true }">
-                    <label class="block text-gray-700 text-sm font-bold mb-1" for="password_confirm">Confirm Password:</label>
+                    <label class="block text-gray-700 text-sm font-bold mb-1" for="password_confirm">Confirmer le mot de passe:</label>
                     <input  class="w-full py-2 px-3 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                             id="password_confirm"
                             :type="show ? 'password' : 'text'"

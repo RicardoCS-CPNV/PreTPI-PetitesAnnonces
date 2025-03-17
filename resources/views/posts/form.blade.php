@@ -58,7 +58,7 @@
             </div>
 
             <div>
-                <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" for="image">Upload file</label>
+                <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" for="image">Ajouter des images</label>
                 <input class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" name="image[]" multiple aria-describedby="image_help" id="image" type="file">
                 @error('image')
                     <p class="text-red-500">{{ $message }}</p>
@@ -66,6 +66,7 @@
             </div>
 
             <div>
+                <label for="tags" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Ajouter des tags</label>
                 <div x-data="{ 
                         selectedTags: {{ $post->tags->pluck('id')->toJson() }}, 
                         search: '', 

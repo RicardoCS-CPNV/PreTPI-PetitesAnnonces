@@ -11,6 +11,7 @@ use Carbon\Traits\Timestamp;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Number;
 use Illuminate\Support\Str;
 
@@ -19,12 +20,53 @@ class PostController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $posts = Post::paginate(30);
-    
+        // Get the sorting criterion and category from the user request
+        $sort = $request->query('sort', 'latest');
+        $categoryId = $request->query('category');
+        $search = $request->query('search');
+
+        // Build the request
+        $query = Post::query();
+
+        // Apply the category filter
+        if ($categoryId) {
+            $query->where('category_id', $categoryId);
+        }
+
+        if ($search) {
+            $query->where(function ($q) use ($search) {
+                $q->where('title', 'like', "%{$search}%")
+                  ->orWhere('description', 'like', "%{$search}%");
+            });
+        }
+
+        // Apply the sort
+        switch ($sort) {
+            case 'price_asc':
+                $query->orderBy('price', 'asc');
+                break;
+            case 'price_desc':
+                $query->orderBy('price', 'desc');
+                break;
+            case 'oldest':
+                $query->oldest();
+                break;
+            default:
+                $query->latest();
+                break;
+        }
+
+        // Apply the pagination
+        $posts = $query->paginate(30);
+
+        // Send to the view
         return view('posts.index', [
             'posts' => $posts,
+            'sort' => $sort, 
+            'categories' => Category::all(),
+            'search' => $search,
         ]);
     }
 
@@ -177,12 +219,12 @@ class PostController extends Controller
             return back()->with('error', "Vous n'avez pas l'autorisation de supprimer cette annonce.");
         }
     
-        // Supprimer les images associées (si tu en as)
-        // foreach ($post->images as $image) {
-        //     Storage::disk('public')->delete($image->image_path);
-        // }
+        // Delete linked images
+        foreach ($post->images as $image) {
+            Storage::delete('posts/' . $image->url_image);
+        }
     
-        // Supprimer l'annonce
+        // Delete Post
         $post->delete();
 
         return redirect()->route('posts.index')->with('success', "L'annonce a été supprimée.");

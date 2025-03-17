@@ -9,6 +9,11 @@
 @endif
 @section("content")
 
+    <div class="absolute w-full flex flex-col items-center h-full p-10 gap-3 sm:gap-5 -z-50">
+        <img src="{{ asset('OdraPlace_Logo.png') }}" alt="OdraPlace Logo" class="w-16 h-16 sm:w-32 sm:h-32">
+        <h1 class="text-5xl sm:text-6xl font-bold text-blue-500">Odra<span class="text-black">Place</span></h1>
+    </div>
+    
     <div class="flex flex-col items-center gap-4 min-h-screen justify-center">
         <h1 class="text-4xl font-bold text-blue-500">Se connecter</h1>
 
@@ -24,7 +29,7 @@
                     @enderror
                 </div>
                 <div class="mb-6 relative flex-1 col-span-4" x-data="{ show: true }">
-                    <label class="block text-gray-700 text-sm font-bold mb-1" for="password">Password:</label>
+                    <label class="block text-gray-700 text-sm font-bold mb-1" for="password">Mot de passe :</label>
                     <input  class="w-full py-2 px-3 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                             id="password"
                             :type="show ? 'password' : 'text'"
