@@ -14,6 +14,7 @@
         </div>
 
         <div class="w-full max-w-max">
+            <!-- Update Form -->
             <form method="POST" action="{{ route('auth.update') }}" enctype="multipart/form-data" class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 ">
                 @csrf
 
@@ -24,6 +25,7 @@
                 @endif
 
                 <div class="mb-4" >
+                    <!-- Name -->
                     <div class="mb-3 col-md-6">
                         <label for="name" class="block text-gray-700 text-sm font-bold mb-2">Name: </label>
                         <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" type="text" id="name" name="name" value="{{ auth()->user()->name }}" autofocus="" >
@@ -34,6 +36,7 @@
                         @enderror
                     </div>
 
+                    <!-- Email -->
                     <div class="mb-3 col-md-6">
                         <label for="email" class="block text-gray-700 text-sm font-bold mb-2">Email: </label>
                         <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" type="text" id="email" name="email" value="{{ auth()->user()->email }}" autofocus="" >
@@ -45,6 +48,7 @@
                     </div>
                 </div>
 
+                <!-- Image -->
                 <div>
                     <h2 class="block text-gray-700 text-sm font-bold mb-2">Profile picture:</h2>
 
@@ -67,6 +71,7 @@
                     @enderror
                 </div>
 
+                <!-- Submit Button -->
                 <div class="flex justify-between items-center">
                     <div class="col-md-12 offset-md-5">
                         <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-5 rounded focus:outline-none focus:shadow-outline">
@@ -74,9 +79,9 @@
                         </button>
                     </div>
                 </div>
-
-                
             </form>
+
+            <!-- Delete Account -->
             <form action="{{  route('auth.delete', auth()->user()->id) }}" method="POST" onsubmit="return confirm('Voulez-vous vraiment supprimer votre compte ? Cette action est irréversible.');">
                 <div class="flex flex-wrap justify-center w-full mt-5 gap-4">
                     @csrf
@@ -92,6 +97,7 @@
         </div>
     </div>
 
+    <!-- Script for the Image Preview -->
     <script>
         document.getElementById('image').addEventListener('change', function(event) {
             let file = event.target.files[0];

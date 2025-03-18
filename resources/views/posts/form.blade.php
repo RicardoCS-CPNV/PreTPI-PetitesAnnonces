@@ -6,6 +6,7 @@
     @endif
 </h1>
 <div class="sm:p-4 p-2 flex flex-col justify-center w-full">
+    <!-- Post Form -->
     <form action="
         @if ($post->id)
             {{ route('posts.update', ['post' => $post->id]) }}
@@ -15,6 +16,7 @@
         " method="POST" enctype="multipart/form-data" class="flex justify-center w-full">
         @csrf
         <div class="flex flex-col gap-5 w-[700px]">
+            <!-- Category -->
             <div class="w-full">
                 <label for="category" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Selectionner une categorie</label>
                 <select id="category" name="category_id" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
@@ -33,6 +35,7 @@
                 @enderror
             </div>
 
+            <!-- Title -->
             <div>
                 <label for="title" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Titre</label>
                 <input type="text" id="title" name="title" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value="{{ old('title', $post->title) }}" placeholder="Titre de l'annonce">
@@ -41,6 +44,7 @@
                 @enderror
             </div>
 
+            <!-- Description -->
             <div>
                 <label for="description" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Description</label>
                 <textarea id="description" rows="4" name="description" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Insérer une description...">{{ old('description', $post->description) }}</textarea>
@@ -49,6 +53,7 @@
                 @enderror
             </div>
 
+            <!-- Price -->
             <div>
                 <label for="price" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Prix (CHF)</label>
                 <input type="text" name="price" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value="{{ old('price', $post->price) }}" placeholder="Prix de l'annonce en CHF">
@@ -57,6 +62,7 @@
                 @enderror
             </div>
 
+            <!-- Image -->
             <div>
                 <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" for="image">Ajouter des images</label>
                 <input class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" name="image[]" multiple aria-describedby="image_help" id="image" type="file">
@@ -65,6 +71,7 @@
                 @enderror
             </div>
 
+            <!-- Tags -->
             <div>
                 <label for="tags" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Ajouter des tags</label>
                 <div x-data="{ 
@@ -99,9 +106,9 @@
 
                     <input type="hidden" name="tags" :value="selectedTags.join(',')">
                 </div>
-
             </div>
 
+            <!-- Submit Button -->
             <div class="flex flex-wrap justify-end">
 
                 <button class="z-10 w-full sm:w-fit text-white bg-blue-500 hover:bg-blue-700 font-bold py-2 px-4 rounded-lg focus:outline-none focus:shadow-outline"  id="submitBtn">
@@ -114,6 +121,8 @@
             </div>
         </div>
     </form>
+
+    <!-- Delete Button -->
     @if ($post->id)
         <div class="flex justify-center">
             <form class="flex mt-4 sm:-mt-10 w-[700px]" action="{{ route('posts.destroy', $post->id) }}" method="POST" onsubmit="return confirm('Voulez-vous vraiment supprimer cette annonce ? Cette action est irréversible.');">

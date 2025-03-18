@@ -4,6 +4,7 @@
 
 @section('content')
 
+    <!-- Show the form -->
     @include('posts.form')
 
 @endsection

@@ -9,11 +9,13 @@
 @endif
 @section("content")
 
+    <!-- Name and Logo -->
     <div class="absolute w-full flex flex-col items-center h-full p-10 gap-3 sm:gap-5 -z-50">
         <img src="{{ asset('OdraPlace_Logo.png') }}" alt="OdraPlace Logo" class="w-16 h-16 sm:w-32 sm:h-32">
         <h1 class="text-5xl sm:text-6xl font-bold text-blue-500">Odra<span class="text-black">Place</span></h1>
     </div>
     
+    <!-- Login Form -->
     <div class="flex flex-col items-center gap-4 min-h-screen justify-center">
         <h1 class="text-4xl font-bold text-blue-500">Se connecter</h1>
 
@@ -21,6 +23,7 @@
             <form class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4" action="{{ route('auth.login') }}" method="post">
                 <!-- Add @csrf for security. -->
                 @csrf
+                <!-- Email -->
                 <div class="mb-4">
                     <label class="block text-gray-700 text-sm font-bold mb-2" for="email">Email:</label>
                     <input class="w-full py-2 px-3 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" type="text" id="email" name="email" placeholder="Email" value="{{ old('email') }}">
@@ -28,6 +31,8 @@
                         {{ $message }}
                     @enderror
                 </div>
+
+                <!-- Password -->
                 <div class="mb-6 relative flex-1 col-span-4" x-data="{ show: true }">
                     <label class="block text-gray-700 text-sm font-bold mb-1" for="password">Mot de passe :</label>
                     <input  class="w-full py-2 px-3 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
@@ -54,6 +59,8 @@
                         {{ $message }}
                     @enderror
                 </div>
+
+                <!-- Submit Button and Signup -->
                 <div class="flex items-center justify-between">
                     <button class="bg-blue-500 hover:bg-blue-700 text-red font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"  id="submitBtn">Connexion</button>
                     <a class="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800" href="{{ route('auth.signup') }}">

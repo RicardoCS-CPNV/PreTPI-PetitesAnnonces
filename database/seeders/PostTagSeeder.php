@@ -14,6 +14,7 @@ class PostTagSeeder extends Seeder
      */
     public function run(): void
     {
+        // Add some tags to each post
         $postIds = DB::table('posts')->pluck('id')->toArray();
         $tagIds = DB::table('tags')->pluck('id')->toArray();
 

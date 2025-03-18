@@ -35,6 +35,7 @@ class PostRequest extends FormRequest
         ];
     }
 
+    // Treat slug format
     public function prepareForValidation(): void
     {
         $this->merge([

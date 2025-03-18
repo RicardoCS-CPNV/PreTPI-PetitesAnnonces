@@ -13,6 +13,7 @@ class CategorySeeder extends Seeder
      */
     public function run(): void
     {
+        // Insert data into the 'categories' table
         DB::table('categories')->insert([
             ['name' => 'Immobilier', 'description' => 'Annonces de vente et location d’appartements, maisons, terrains, bureaux.', 'created_at' => Now(), 'updated_at' => Now()],
             ['name' => 'Véhicules', 'description' => 'Achat et vente de voitures, motos, vélos, camions, camping-cars et pièces détachées.', 'created_at' => Now(), 'updated_at' => Now()],

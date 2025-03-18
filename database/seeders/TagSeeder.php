@@ -13,6 +13,7 @@ class TagSeeder extends Seeder
      */
     public function run(): void
     {
+        // Add some tags
         $tags = collect([
             'Neuf', 'Occasion', 'Promotion', 'Urgent', 'Électronique', 'Smartphone', 'Informatique', 'Console de jeux',
             'Maison', 'Jardin', 'Meubles', 'Décoration', 'Cuisine',

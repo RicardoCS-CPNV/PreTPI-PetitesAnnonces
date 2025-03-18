@@ -11,6 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
+        // Add a new column to the 'users' table
         Schema::table('users', function (Blueprint $table) {
             $table->after('password', function ($table) {
                 $table->string('image')->nullable()->default('defaultAvatar.jpg');

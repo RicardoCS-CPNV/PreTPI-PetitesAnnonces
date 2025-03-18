@@ -12,12 +12,13 @@ use Illuminate\Support\Facades\Storage;
 
 class AuthController extends Controller
 {
+    // Stores a new user in the database
     public function store(SignUpRequest $request)
     {
-        // Les données sont validées automatiquement grâce à SignUpRequest
+        // Validate the request
         $validated = $request->validated();
 
-
+        // Create the user
         $user = User::create([
             'name' => $validated['name'],
             'email' => $validated['email'],
@@ -25,6 +26,7 @@ class AuthController extends Controller
             'image' => "defaultAvatar.jpg",
         ]);
 
+        // Upload the avatar
         if($request->has('image')) {
             $file = $request->file('image');
             $filename = $user->id . '.' . $file->getClientOriginalExtension();
@@ -33,20 +35,26 @@ class AuthController extends Controller
             $user->update(['image' => $filename]);
         }
 
+        // Login the user
         Auth::login($user);
 
+        // Redirect to the home page
         return redirect()->intended(route('home'));
     }
     
+    // Displays the login form
     public function login()
     {
         return view('auth.login');
     }
 
+    // Handles the login request
     public function doLogin(LoginRequest $request)
     {
+        // Validate the request
         $credentials = $request->validated();
 
+        // Attempt to authenticate the user
         if(Auth::attempt($credentials)) {
             $request->session()->regenerate();
             return redirect()->intended(route('home'));
@@ -57,85 +65,102 @@ class AuthController extends Controller
         }
     }
 
+    // Displays the update form
     public function edit(User $user)
     {
+        // Compact the user variable and send it to the view
         return view('auth.update', compact('user'));
     }
 
+    // Handles the update request
     public function update(UpdateUserRequest $request)
     {
+        // Validate the request
         $validated = $request->validated();
-        $modified = false;
+        $modified = false; // Variable to check if the user has been modified
 
-        // Cela permet à isDirty() et save() de fonctionner, sans cela, ils ne fonctionneraient pas.
+        // For isDirty() and save()
         /**
         * @var \App\Models\User $user
         */
+
+        // Get the authenticated user
         $user = Auth::user();
 
+        // Upload the avatar
         if ($request->hasFile('image')) {
             $file = $request->file('image');
             $filename = Auth::id() . '.' . $file->getClientOriginalExtension();
             $destinationPath = public_path('avatars');
         
-            // 🔥 Vérifier si l'utilisateur a déjà une image avant de la supprimer
+            // Check if the user already has an image
             if ($user && $user->image && file_exists($destinationPath . '/' . $user->image) && $user->image !== 'defaultAvatar.jpg') {
+                // Delete the old image
                 unlink($destinationPath . '/' . $user->image);
             }
         
-            // 🔥 Déplacer la nouvelle image uniquement si l’upload est valide
+            // Move the uploaded file to the destination
             $file->move($destinationPath, $filename);
+
+            // Update the user's image
             $user->update(['image' => $filename]);
         
             $modified = true;
         }
         
-        // Mise à jour uniquement si le nom est modifié
+        // Upload the user name only if it has changed
         if ($request->input('name') !== $user->name) {
             $user->name = $validated['name'];
             $modified = true;
         }
         
-        // Mise à jour uniquement si l'email est modifié
+        // Upload the user email only if it has changed
         if ($request->input('email') !== $user->email) {
             $user->email = $validated['email'];
             $modified = true;
         }
 
-        // Vérifier si des changements ont été faits avant de sauvegarder
+        // Check if the user has been modified
         if (!$modified && !$user->isDirty()) {
             return back()->with('success', 'Aucune modification détectée.');
         }
 
-        // Sauvegarder les modifications
+        // Save the user
         $user->save();
+
         return back()->with('success', 'Votre profil a été mis à jour avec succès.');
     }
 
+    // Logs the user out
     public function logout()
     {
+        // Logout the user
         Auth::logout();
         return to_route('auth.login');
     }
 
+    // Deletes the user
     public function delete(User $user)
     {
+        // Check if the user has an avatar and not the default avatar
         if(asset('avatars/' . $user->image) !== asset('avatars/defaultAvatar.jpg')) {
+            // Delete the avatar
             Storage::delete('avatars/' . $user->image);
         }
         
         // Delete all posts
         $user->posts()->each(function ($post) {
-            // Supprime les images des posts
+            // Delete linked images
             foreach ($post->images as $image) {
                 Storage::delete('posts/' . $image->url_image);
             }
-            $post->delete(); // Supprime le post après ses images
+            $post->delete(); // Delete the post
         });
         
         // Delete the user
         $user->delete();
         
+        // Logout the user
         Auth::logout();
 
         return to_route('auth.login');

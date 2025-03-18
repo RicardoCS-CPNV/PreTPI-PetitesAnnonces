@@ -15,6 +15,7 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
+        // Add some users
         $users = [
             ['name' => 'Ricardo', 'email' => 'ricardo@gmail.com'],
             ['name' => 'Samuel', 'email' => 'samuel@gmail.com'],

@@ -3,6 +3,7 @@
 @section('title', 'Posts')
 
 @section('content')
+    <!-- Success message -->
     @if(session('success'))
         <div class="flex justify-center sm:mx-5 mx-2 sm:mt-3 mt-2">
             <div class="flex items-center p-4 text-sm text-green-800 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-green-400 w-[700px]" role="alert">
@@ -18,6 +19,7 @@
 
     <h1 class="text-center text-4xl font-bold mb-6 dark:text-white mt-4">Annonces</h1>
 
+    <!-- Search form -->
     <div class="mx-2 sm:mx-5 mb-5 w-full sm:w-fit">
         <form action="{{ route('posts.index') }}" method="GET" class="w-full sm:w-96">
             <label for="search" class="block mb-2 text-lg font-medium text-gray-900 dark:text-white">Rechercher une annonce</label>
@@ -32,14 +34,16 @@
         </form>
     </div>
 
+    <!-- Create post button -->
     <div class="mx-2 sm:mx-5 mb-5">
         <a href="{{ route('posts.create') }}" class="w-fit text-white bg-blue-500 dark:bg-blue-700 dark:text-white hover:bg-blue-700 dark:hover:bg-blue-500 font-bold py-2 px-4 rounded-lg focus:outline-none focus:shadow-outline">
             Créer une annonce
         </a>
     </div>
 
+    <!-- Filters -->
     <div class="flex flex-col gap-5 justify-between mx-2 sm:mx-5" x-data="{ openSort: false }">
-
+        <!-- Category filter -->
         <div x-data="{ openCategory: false }">
             <div class="w-full mt-4">
                 <label for="category" class="hidden sm:block text-2xl font-bold dark:text-white">Sélectionner une catégorie</label>
@@ -62,6 +66,7 @@
             </div>
         </div>
 
+        <!-- Sort filter -->
         <div class="flex flex-col w-full">
             <h1 class="hidden sm:block text-2xl font-bold dark:text-white mt-2">Trier</h1>
             <div class="relative sm:hidden w-full">
@@ -88,6 +93,7 @@
         </div>
     </div>
 
+    <!-- Posts -->
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 my-5 mx-2 sm:mx-5 pb-5">
         @foreach($posts as $post)
             <a href="{{ route('posts.show', ['post' => $post->id]) }}" class="relative flex md:flex-row w-full gap-2 bg-slate-50 dark:bg-slate-800 p-4 shadow-md dark:shadow-gray-950 rounded-xl">
@@ -109,6 +115,7 @@
         @endforeach
     </div>
 
+    <!-- Pagination -->
     <div class="mx-2 sm:mx-5">
         {{ $posts->links() }}
     </div>

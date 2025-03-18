@@ -35,6 +35,7 @@ class PostController extends Controller
             $query->where('category_id', $categoryId);
         }
 
+        // Apply the search if there is one
         if ($search) {
             $query->where(function ($q) use ($search) {
                 $q->where('title', 'like', "%{$search}%")
@@ -75,11 +76,15 @@ class PostController extends Controller
      */
     public function create()
     {
+        // Check if the user is logged
         if(!Auth::check()){
             return redirect()->route('auth.login');
         }
 
+        // Create the post
         $post = new Post();
+
+        // Send to the view
         return view('posts.create', [
             'post' => $post,
             'categories' => Category::all(),
@@ -112,17 +117,20 @@ class PostController extends Controller
             $post->tags()->sync($tags); // Associer les tags avec `sync()`
         }
 
+        // Upload images if any
         if ($request->hasFile('image')) {
             $files = $request->file('image');
             foreach ($files as $file) {
                 $timestamp = Carbon::now()->format('Ymd_His_u');
                 $filename = $post->id . '_' . $timestamp . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
 
+                // Create the image
                 $post->images()->create([
                     'url_image' => $filename,
                     'post_id' => $post->id
                 ]);
 
+                // Upload the image on the storage
                 $file->storeAs('posts', $filename, 'public');
             }
         }
@@ -147,6 +155,7 @@ class PostController extends Controller
      */
     public function edit(Post $post )
     {
+        // Check if the post belongs to the user
         if (Auth::id() !== $post->user_id) {
             if (!Auth::check()) {
                 return redirect()->route('auth.login');
@@ -165,12 +174,10 @@ class PostController extends Controller
      */
     public function update(PostRequest $request, Post $post)
     {
-
-
-        // Validation des données
+        // Validate Data
         $validatedData = $request->validated();
     
-        // Mise à jour des informations du post
+        // Update the post
         $post->update([
             'title' => $validatedData['title'],
             'description' => $validatedData['description'],
@@ -180,17 +187,18 @@ class PostController extends Controller
             'updated_at' => now(),
         ]);
     
-        // Vérifier si des tags ont été envoyés
+        // Update if tags exist
         if ($request->has('tags')) {
             $newTags = explode(',', $request->input('tags'));
             $currentTags = $post->tags()->pluck('tags.id')->toArray(); // Get the current tags from the post
 
-            // Mettre à jour uniquement si les tags ont changé
+            // Check if the new tags are different from the current tags
             if ($newTags !== $currentTags) {
                 $post->tags()->sync($newTags);
             }
         }
 
+        // Delete linked images
         if ($request->hasFile('image')) {
             $files = $request->file('image');
             foreach ($files as $file) {
@@ -215,6 +223,7 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
+        // Check if the post belongs to the user
         if (Auth::id() !== $post->user_id) {
             return back()->with('error', "Vous n'avez pas l'autorisation de supprimer cette annonce.");
         }

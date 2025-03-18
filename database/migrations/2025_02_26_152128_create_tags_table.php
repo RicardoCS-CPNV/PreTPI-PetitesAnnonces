@@ -11,6 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
+        // Create the 'tags' table
         Schema::create('tags', function (Blueprint $table) {
             $table->id();
             $table->string('name')->unique();
